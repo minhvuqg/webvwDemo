@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/webvwdemo/static/css/main.073c9b0a.css",
-    "main.js": "/webvwdemo/static/js/main.d0c988b3.js",
+    "main.js": "/webvwdemo/static/js/main.d1afc056.js",
     "static/js/787.d0017c78.chunk.js": "/webvwdemo/static/js/787.d0017c78.chunk.js",
     "static/media/logo.svg": "/webvwdemo/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/webvwdemo/index.html",
     "main.073c9b0a.css.map": "/webvwdemo/static/css/main.073c9b0a.css.map",
-    "main.d0c988b3.js.map": "/webvwdemo/static/js/main.d0c988b3.js.map",
+    "main.d1afc056.js.map": "/webvwdemo/static/js/main.d1afc056.js.map",
     "787.d0017c78.chunk.js.map": "/webvwdemo/static/js/787.d0017c78.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.d0c988b3.js"
+    "static/js/main.d1afc056.js"
   ]
 }
