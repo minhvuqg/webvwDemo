@@ -3,15 +3,55 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const submitForm = () => {
+  const submitFormObs = () => {
     var message = {
       authorize: document.getElementById("authorize").value,
     };
     if (!!window?.webkit?.messageHandlers?.observer?.postMessage(message)) {
       window.webkit.messageHandlers.observer.postMessage(message);
     }
+    setMessage(
+      `Obs
+      ${!!window?.webkit?.messageHandlers?.observer?.postMessage(message).toString()}`
+    );
+  };
+  const submitFormObsDirect = () => {
+    window?.webkit?.messageHandlers?.observer?.postMessage({});
+    setMessage(
+      `Obs Direct status: 
+      ${!!window?.webkit?.messageHandlers?.observer?.postMessage({})}`
+    );
+  };
+  const submitFormLinkNow = () => {
+    window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage({});
+    setMessage(
+      `Link status: ,
+      ${!!window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage({})}`
+    );
+  };
+  const submitFormLinkNowFull = () => {
+    const postMessage = (funcName, message) => {
+      let func;
+      func = window?.webkit?.messageHandlers?.[funcName]?.postMessage;
+      const payload = { ...message };
+      typeof func === 'function' && func(payload);
+      typeof func === 'function' && setMessage(`Link full status: , ${!!func(payload)}`);
+    };
+    postMessage("LinkNowWithPermission", {
+      name: "LinkNowWithPermission",
+      message: "LinkNowWithPermission",
+    });
+  };
+
+  const submitFormLinkNowDirect = () => {
+    window?.webkit?.messageHandlers?.LinkNowWithPermission?.postMessage({});
+    setMessage(
+      `Link full status: ,
+      ${!!window?.webkit?.messageHandlers?.LinkNowWithPermission?.postMessage({})}`
+    );
   };
   const [vis, setVis] = useState("");
+  const [message, setMessage] = useState("");
   if (vis === "ios") {
     return (
       <div>
@@ -28,7 +68,22 @@ function App() {
           />
         </div>
 
-        <button onClick={submitForm}>Click Call IOS HeathKit</button>
+        <button style={{ margin: 5 }} onClick={submitFormObs}>
+          observer Fn
+        </button>
+        <button style={{ margin: 5 }} onClick={submitFormObsDirect}>
+          observer Direct Fn
+        </button>
+        <button style={{ margin: 5 }} onClick={submitFormLinkNow}>
+          Link Now Fn
+        </button>
+        <button style={{ margin: 5 }} onClick={submitFormLinkNowDirect}>
+          Link Now Direct Fn
+        </button>
+        <button style={{ margin: 5 }} onClick={submitFormLinkNowFull}>
+          Link Now Full Fn
+        </button>
+        {message}
       </div>
     );
   }
@@ -48,7 +103,7 @@ function App() {
           />
         </div>
 
-        <button onClick={submitForm}>Click Call Android HeathKit</button>
+        {/* <button onClick={submitForm}>Click Call Android HeathKit</button> */}
       </div>
     );
   }
@@ -56,7 +111,7 @@ function App() {
   return (
     <>
       <button onClick={() => setVis("ios")}>Apple Care</button>;
-      <button onClick={() => setVis("android")}>Google Care</button>;
+      <button onClick={() => setVis("android")}>Google Fit</button>;
     </>
   );
 }
