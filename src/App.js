@@ -12,7 +12,9 @@ function App() {
     }
     setMessage(
       `Obs
-      ${!!window?.webkit?.messageHandlers?.observer?.postMessage(message).toString()}`
+      ${!!window?.webkit?.messageHandlers?.observer
+        ?.postMessage(message)
+        .toString()}`
     );
   };
   const submitFormObsDirect = () => {
@@ -26,16 +28,21 @@ function App() {
     window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage({});
     setMessage(
       `Link status: ,
-      ${!!window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage({})}`
+      ${!!window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage(
+        {}
+      )}`
     );
   };
   const submitFormLinkNowFull = () => {
     const postMessage = (funcName, message) => {
       let func;
-      func = window?.webkit?.messageHandlers?.[funcName]?.postMessage;
+      func = window?.webkit?.messageHandlers[funcName]?.postMessage;
       const payload = { ...message };
-      typeof func === 'function' && func(payload);
-      typeof func === 'function' && setMessage(`Link full status: , ${!!func(payload)}`);
+      if (typeof func === "function") {
+        func(payload);
+      }
+      typeof func === "function" &&
+        setMessage(`Link full status: , ${!!func(payload)}`);
     };
     postMessage("LinkNowWithPermission", {
       name: "LinkNowWithPermission",
@@ -47,7 +54,9 @@ function App() {
     window?.webkit?.messageHandlers?.LinkNowWithPermission?.postMessage({});
     setMessage(
       `Link full status: ,
-      ${!!window?.webkit?.messageHandlers?.LinkNowWithPermission?.postMessage({})}`
+      ${!!window?.webkit?.messageHandlers?.LinkNowWithPermission?.postMessage(
+        {}
+      )}`
     );
   };
   const [vis, setVis] = useState("");
@@ -81,7 +90,7 @@ function App() {
           Link Now Direct Fn
         </button>
         <button style={{ margin: 5 }} onClick={submitFormLinkNowFull}>
-          Link Now Full Fn
+          Link Now Full Fn2
         </button>
         {message}
       </div>
