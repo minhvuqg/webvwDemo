@@ -34,20 +34,10 @@ function App() {
     );
   };
   const submitFormLinkNowFull = () => {
-    const postMessage = (funcName, message) => {
-      let func;
-      func = window?.webkit?.messageHandlers[funcName]?.postMessage;
-      const payload = { ...message };
-      if (typeof func === "function") {
-        func(payload);
-      }
-      typeof func === "function" &&
-        setMessage(`Link full status: , ${!!func(payload)}`);
+    const postMessage = (funcName, message = {}) => {
+      window?.webkit?.messageHandlers[funcName]?.postMessage(message);
     };
-    postMessage("LinkNowWithPermission", {
-      name: "LinkNowWithPermission",
-      message: "LinkNowWithPermission",
-    });
+    postMessage("LinkNowWithPermission");
   };
 
   const submitFormLinkNowDirect = () => {
@@ -90,7 +80,7 @@ function App() {
           Link Now Direct Fn
         </button>
         <button style={{ margin: 5 }} onClick={submitFormLinkNowFull}>
-          Link Now Full Fn2
+          Link Now Full Fn
         </button>
         {message}
       </div>
