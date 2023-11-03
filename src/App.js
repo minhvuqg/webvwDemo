@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -28,9 +28,9 @@ function App() {
     window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage({});
     setMessage(
       `Link status: ,
-      ${!!window?.webkit?.messageHandlers["LinkNowWithPermission"]?.postMessage(
-        {}
-      )}`
+      ${!!window?.webkit?.messageHandlers?.[
+        "LinkNowWithPermission"
+      ]?.postMessage({})}`
     );
   };
   const submitFormLinkNowFull = () => {
@@ -38,6 +38,48 @@ function App() {
       window?.webkit?.messageHandlers[funcName]?.postMessage(message);
     };
     postMessage("LinkNowWithPermission");
+  };
+
+  const openWebviewInWebviewBefore = () => {
+    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
+      url: "https://www.google.com",
+    });
+    setMessage(`Open Webview before`);
+  };
+
+  const openWebviewInWebview0 = () => {
+    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
+      url: "https://www.google.com",
+      onCloseWebView: () => setMessage(`Close Webview after`),
+    });
+
+    setMessage(`Open Webview after 0`);
+  };
+  const openWebviewInWebview1 = () => {
+    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
+      url: "https://www.google.com",
+      onCloseWebView: setMessage(`Close Webview after`),
+    });
+
+    setMessage(`Open Webview after 1`);
+  };
+
+  const openWebviewInWebview2 = () => {
+    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
+      url: "https://www.google.com",
+      onCloseWebView: () => {
+        return setMessage(`Close Webview after 2`);
+      },
+    });
+
+    setMessage(`Open Webview after`);
+  };
+
+  const openWebviewInWebviewBefore3 = () => {
+    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
+      onCloseWebView: () => setMessage(`Close Webview after`),
+    });
+    setMessage(`Open Webview before3`);
   };
 
   const submitFormLinkNowDirect = () => {
@@ -66,22 +108,78 @@ function App() {
             name="authorize"
           />
         </div>
-
-        <button style={{ margin: 5 }} onClick={submitFormObs}>
-          observer Fn
-        </button>
-        <button style={{ margin: 5 }} onClick={submitFormObsDirect}>
-          observer Direct Fn
-        </button>
-        <button style={{ margin: 5 }} onClick={submitFormLinkNow}>
-          Link Now Fn
-        </button>
-        <button style={{ margin: 5 }} onClick={submitFormLinkNowDirect}>
-          Link Now Direct Fn
-        </button>
-        <button style={{ margin: 5 }} onClick={submitFormLinkNowFull}>
-          Link Now Full Fn
-        </button>
+        <div>
+          <button style={{ margin: 5 }} onClick={submitFormObs}>
+            observer Fn
+          </button>
+          <button style={{ margin: 5 }} onClick={submitFormObsDirect}>
+            observer Direct Fn
+          </button>
+          <button style={{ margin: 5 }} onClick={submitFormLinkNow}>
+            Link Now Fn
+          </button>
+          <button style={{ margin: 5 }} onClick={submitFormLinkNowDirect}>
+            Link Now Direct Fn
+          </button>
+          <button style={{ margin: 5 }} onClick={submitFormLinkNowFull}>
+            Link Now Full Fn
+          </button>
+          <button
+            style={{
+              margin: 5,
+              backgroundColor: "red",
+              color: "white",
+              padding: 12,
+            }}
+            onClick={openWebviewInWebviewBefore}
+          >
+            Open web view before
+          </button>
+          <button
+            style={{
+              margin: 5,
+              backgroundColor: "red",
+              color: "white",
+              padding: 12,
+            }}
+            onClick={openWebviewInWebview0}
+          >
+            Open web view after 0
+          </button>
+          <button
+            style={{
+              margin: 5,
+              backgroundColor: "red",
+              color: "white",
+              padding: 12,
+            }}
+            onClick={openWebviewInWebview1}
+          >
+            Open web view after 1
+          </button>
+          <button
+            style={{
+              margin: 5,
+              backgroundColor: "red",
+              color: "white",
+              padding: 12,
+            }}
+            onClick={openWebviewInWebview2}
+          >
+            Open web view after 2
+          </button>
+          <button
+            style={{
+              margin: 5,
+              backgroundColor: "red",
+              color: "white",
+              padding: 12,
+            }}
+            onClick={openWebviewInWebviewBefore3}
+          >
+            Open web view after 3
+          </button>
+        </div>
         {message}
       </div>
     );
@@ -93,7 +191,7 @@ function App() {
         <button onClick={() => setVis("")}>back</button>
         <div>
           <label for="authorize">Authorize:</label>
-
+          4
           <input
             type="authorize"
             id="authorize"
@@ -109,8 +207,28 @@ function App() {
 
   return (
     <>
-      <button onClick={() => setVis("ios")}>Apple Care</button>;
-      <button onClick={() => setVis("android")}>Google Fit</button>;
+      <button
+        style={{
+          margin: 30,
+          backgroundColor: "red",
+          color: "white",
+          padding: 12,
+        }}
+        onClick={() => setVis("ios")}
+      >
+        Apple Care
+      </button>
+      <button
+        style={{
+          margin: 30,
+          backgroundColor: "red",
+          color: "white",
+          padding: 12,
+        }}
+        onClick={() => setVis("android")}
+      >
+        Google Fit
+      </button>
     </>
   );
 }
