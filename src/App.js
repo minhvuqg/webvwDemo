@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import PostMessage from "./util";
 
 function App() {
   const submitFormObs = () => {
@@ -17,6 +18,7 @@ function App() {
         .toString()}`
     );
   };
+
   const submitFormObsDirect = () => {
     window?.webkit?.messageHandlers?.observer?.postMessage({});
     setMessage(
@@ -58,28 +60,17 @@ function App() {
   const openWebviewInWebview1 = () => {
     window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
       url: "https://www.google.com",
-      onCloseWebView: setMessage(`Close Webview after`),
+      onCloseWebView: () =>
+        PostMessage.sendMessage("OpenWebviewInWebview", "abc").then((data) =>
+          setMessage(data)
+        ),
     });
-
     setMessage(`Open Webview after 1`);
   };
 
-  const openWebviewInWebview2 = () => {
-    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
-      url: "https://www.google.com",
-      onCloseWebView: () => {
-        return setMessage(`Close Webview after 2`);
-      },
-    });
-
-    setMessage(`Open Webview after`);
-  };
-
-  const openWebviewInWebviewBefore3 = () => {
-    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
-      onCloseWebView: () => setMessage(`Close Webview after`),
-    });
-    setMessage(`Open Webview before3`);
+  const closeWebview = () => {
+    window?.webkit?.messageHandlers?.["CloseCurrentWebview"]?.postMessage({});
+    setMessage(`Close Webview`);
   };
 
   const submitFormLinkNowDirect = () => {
@@ -157,27 +148,17 @@ function App() {
           >
             Open web view after 1
           </button>
+
           <button
             style={{
               margin: 5,
-              backgroundColor: "red",
+              backgroundColor: "blue",
               color: "white",
               padding: 12,
             }}
-            onClick={openWebviewInWebview2}
+            onClick={closeWebview}
           >
-            Open web view after 2
-          </button>
-          <button
-            style={{
-              margin: 5,
-              backgroundColor: "red",
-              color: "white",
-              padding: 12,
-            }}
-            onClick={openWebviewInWebviewBefore3}
-          >
-            Open web view after 3
+            Close Webview
           </button>
         </div>
         {message}
