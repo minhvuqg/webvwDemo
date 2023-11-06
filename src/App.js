@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import PostMessage from "./util";
 
 function App() {
   const submitFormObs = () => {
@@ -17,6 +18,7 @@ function App() {
         .toString()}`
     );
   };
+
   const submitFormObsDirect = () => {
     window?.webkit?.messageHandlers?.observer?.postMessage({});
     setMessage(
@@ -40,46 +42,25 @@ function App() {
     postMessage("LinkNowWithPermission");
   };
 
-  const openWebviewInWebviewBefore = () => {
+  const openWebviewInWebviewBeforeReload = () => {
     window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
       url: "https://www.google.com",
+      forceReloadAfterClose: "true",
     });
-    setMessage(`Open Webview before`);
+    setMessage(`Open Webview Reload`);
   };
-
-  const openWebviewInWebview0 = () => {
+  
+  const openWebviewInWebviewBeforeNormal = () => {
     window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
       url: "https://www.google.com",
-      onCloseWebView: () => setMessage(`Close Webview after`),
+      forceReloadAfterClose: "false",
     });
-
-    setMessage(`Open Webview after 0`);
-  };
-  const openWebviewInWebview1 = () => {
-    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
-      url: "https://www.google.com",
-      onCloseWebView: setMessage(`Close Webview after`),
-    });
-
-    setMessage(`Open Webview after 1`);
+    setMessage(`Open Webview`);
   };
 
-  const openWebviewInWebview2 = () => {
-    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
-      url: "https://www.google.com",
-      onCloseWebView: () => {
-        return setMessage(`Close Webview after 2`);
-      },
-    });
-
-    setMessage(`Open Webview after`);
-  };
-
-  const openWebviewInWebviewBefore3 = () => {
-    window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
-      onCloseWebView: () => setMessage(`Close Webview after`),
-    });
-    setMessage(`Open Webview before3`);
+  const closeWebview = () => {
+    window?.webkit?.messageHandlers?.["CloseCurrentWebview"]?.postMessage({});
+    setMessage(`Close Webview`);
   };
 
   const submitFormLinkNowDirect = () => {
@@ -91,6 +72,7 @@ function App() {
       )}`
     );
   };
+
   const [vis, setVis] = useState("");
   const [message, setMessage] = useState("");
   if (vis === "ios") {
@@ -131,53 +113,31 @@ function App() {
               color: "white",
               padding: 12,
             }}
-            onClick={openWebviewInWebviewBefore}
+            onClick={openWebviewInWebviewBeforeReload}
           >
-            Open web view before
+            Open web view reload after close
           </button>
           <button
             style={{
               margin: 5,
-              backgroundColor: "red",
+              backgroundColor: "purple",
               color: "white",
               padding: 12,
             }}
-            onClick={openWebviewInWebview0}
+            onClick={openWebviewInWebviewBeforeNormal}
           >
-            Open web view after 0
+            Open web view don't reload after close
           </button>
           <button
             style={{
               margin: 5,
-              backgroundColor: "red",
+              backgroundColor: "blue",
               color: "white",
               padding: 12,
             }}
-            onClick={openWebviewInWebview1}
+            onClick={closeWebview}
           >
-            Open web view after 1
-          </button>
-          <button
-            style={{
-              margin: 5,
-              backgroundColor: "red",
-              color: "white",
-              padding: 12,
-            }}
-            onClick={openWebviewInWebview2}
-          >
-            Open web view after 2
-          </button>
-          <button
-            style={{
-              margin: 5,
-              backgroundColor: "red",
-              color: "white",
-              padding: 12,
-            }}
-            onClick={openWebviewInWebviewBefore3}
-          >
-            Open web view after 3
+            Close Webview
           </button>
         </div>
         {message}
