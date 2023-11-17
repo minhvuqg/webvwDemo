@@ -49,7 +49,7 @@ function App() {
     });
     setMessage(`Open Webview Reload`);
   };
-  
+
   const openWebviewInWebviewBeforeNormal = () => {
     window?.webkit?.messageHandlers?.["OpenWebviewInWebview"]?.postMessage({
       url: "https://www.google.com",
@@ -71,6 +71,11 @@ function App() {
         {}
       )}`
     );
+  };
+
+  const linkPermission = () => {
+    window?.webkit?.messageHandlers?.["LinkPermissionPhoto"]?.postMessage({});
+    setMessage(`LinkPermissionPhoto`);
   };
 
   const [vis, setVis] = useState("");
@@ -139,6 +144,15 @@ function App() {
           >
             Close Webview
           </button>
+          <input
+            type="file"
+            id="myfile"
+            name="myfile"
+            multiple
+            onClick={() => linkPermission()}
+          >
+            Input type file
+          </input>
         </div>
         {message}
       </div>
