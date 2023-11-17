@@ -151,7 +151,6 @@ function App() {
             multiple
             onClick={() => linkPermission()}
           >
-            Input type file
           </input>
         </div>
         {message}
