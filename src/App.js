@@ -150,8 +150,7 @@ function App() {
             name="myfile"
             multiple
             onClick={() => linkPermission()}
-          >
-          </input>
+          ></input>
         </div>
         {message}
       </div>
@@ -170,6 +169,7 @@ function App() {
             id="authorize"
             placeholder="Off"
             name="authorize"
+            accept="image/*"
           />
         </div>
 
